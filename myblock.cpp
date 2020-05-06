@@ -2,236 +2,39 @@
 #include<iostream>
 #include<time.h>
 using namespace std;
-//WINAPI :调用约定
-/*
-参数一：当前窗口实例句柄
-参数二：应用程序的前一个事例的句柄。
-参数三：指定传递给应用程序的命令行参数
-参数四：指定窗口的显示方式（隐藏，最大化最小化。。。）。
-*/
-//方块类
-class block
-{
-public:
-	//void Block_falling();       //      方块下落函数
-	//void Block_speed();         //      方块加速函数函数
-	//void Block_move();          //      方块左右移动函数
-	//void Block_changeshape();   //      方块变形控制函数
-	int block_shape1[2][4] = { 1,1,0,0,
-							   0,1,1,0 };
-	int block_shape2[2][4] = { 0,1,1,0,
-							   1,1,0,0 };
-	int block_shape3[2][4] = { 0,0,1,0,
-							   1,1,1,0 };
-	int block_shape4[2][4] = { 1,0,0,0,
-							   1,1,1,0 };
-	int block_shape5[2][4] = { 0,1,0,0,
-							   1,1,1,0 };
-	int block_shape6[2][4] = { 1,1,0,0,
-							   1,1,0,0 };
-	int block_shape7[2][4] = { 1,1,1,1,
-							  0,0,0,0 };
-
-
-};
-//       游戏界面类
-class gamewindow                  
-{
-public:
-	//void Map_initialize();         //       地图初始化函数
-	//画方框
-	void Map_frame(HDC hdc)			
-	{
-		HDC Fhdc = CreateCompatibleDC(hdc);	//创建兼容性DC
-		HBITMAP hbitmap=CreateCompatibleBitmap(hdc, 900, 650);//创建一张纸
-		SelectObject(Fhdc, hbitmap);//关联起来
-		Rectangle(Fhdc, 140, 0, 440, 600);
-		Rectangle(Fhdc, 460, 0, 760, 600);
-		Rectangle(Fhdc, 0, 0, 140, 600);
-		Rectangle(Fhdc, 440, 0, 460, 600);
-		Rectangle(Fhdc, 760, 0, 900, 600);
-		BitBlt(hdc, 0, 0, 900, 650, Fhdc, 0, 0, SRCCOPY);
-		DeleteObject(hbitmap); 
-		DeleteDC(Fhdc);//释放dc；
-	}
-	int window_size1[20][10] = { 0 };//      游戏界面的尺寸
-	int window_size2[20][10] = { 0 };
-	//绘制方块
-	void Print_block1(HDC Fhdc,int a[][10])
-	{
-		int i = 0, j = 0;
-		for (i = 0; i < 20; i++)
-		{
-			for (j = 0; j < 10; j++)
-			{
-				if (a[i][j] == 1)
-				{
-					Rectangle(Fhdc, 140+30*j, 30*i, 140+30*j+30, 30*i+30);
-				}
-			}
-		}
-	}
-	void Print_block2(HDC Fhdc, int a[][10])
-	{
-		int i = 0, j = 0;
-		for (i = 0; i < 20; i++)
-		{
-			for (j = 0; j < 10; j++)
-			{
-				if (a[i][j] == 1)
-				{
-					Rectangle(Fhdc, 460 + 30 * j, 30 * i, 460 + 30 * j + 30, 30 * i + 30);
-				}
-			}
-		}
-	}
-	//创建随即块
-	void Block_CR()
-	{
-		srand((unsigned int)time(NULL));
-		int n = rand() % 7;
-		 block block1;
-		int i = 0, j = 0;
-		switch (n)
-		{
-		case 0:
-			for (i = 0; i < 2; i++)
-			{
-				for (j = 0; j < 4; j++)
-				{
-					window_size1[i][j + 3] = block1.block_shape1[i][j];
-				}
-			}
-			for (i = 0; i < 2; i++)
-			{
-				for (j = 0; j < 4; j++)
-				{
-					window_size2[i][j + 3] = block1.block_shape1[i][j];
-				}
-			}
-			break;
-		case 1:
-			for (i = 0; i < 2; i++)
-			{
-				for (j = 0; j < 4; j++)
-				{
-					window_size1[i][j + 3] = block1.block_shape2[i][j];
-				}
-			}
-			for (i = 0; i < 2; i++)
-			{
-				for (j = 0; j < 4; j++)
-				{
-					window_size2[i][j + 3] = block1.block_shape2[i][j];
-				}
-			}
-			break;
-		case 2:
-			for (i = 0; i < 2; i++)
-			{
-				for (j = 0; j < 4; j++)
-				{
-					window_size1[i][j + 3] = block1.block_shape3[i][j];
-				}
-			}
-			for (i = 0; i < 2; i++)
-			{
-				for (j = 0; j < 4; j++)
-				{
-					window_size2[i][j + 3] = block1.block_shape3[i][j];
-				}
-			}
-			break;
-		case 3:
-			for (i = 0; i < 2; i++)
-			{
-				for (j = 0; j < 4; j++)
-				{
-					window_size1[i][j + 3] = block1.block_shape4[i][j];
-				}
-			}
-			for (i = 0; i < 2; i++)
-			{
-				for (j = 0; j < 4; j++)
-				{
-					window_size2[i][j + 3] = block1.block_shape4[i][j];
-				}
-			}
-			break;
-		case 4:
-			for (i = 0; i < 2; i++)
-			{
-				for (j = 0; j < 4; j++)
-				{
-					window_size1[i][j + 3] = block1.block_shape5[i][j];
-				}
-			}
-			for (i = 0; i < 2; i++)
-			{
-				for (j = 0; j < 4; j++)
-				{
-					window_size2[i][j + 3] = block1.block_shape5[i][j];
-				}
-			}
-			break;
-		case 5:
-			for (i = 0; i < 2; i++)
-			{
-				for (j = 0; j < 4; j++)
-				{
-					window_size1[i][j + 3] = block1.block_shape6[i][j];
-				}
-			}
-			for (i = 0; i < 2; i++)
-			{
-				for (j = 0; j < 4; j++)
-				{
-					window_size2[i][j + 3] = block1.block_shape6[i][j];
-				}
-			}
-			break;
-		case 6:
-			for (i = 0; i < 2; i++)
-			{
-				for (j = 0; j < 4; j++)
-				{
-					window_size1[i][j + 3] = block1.block_shape7[i][j];
-				}
-			}
-			for (i = 0; i < 2; i++)
-			{
-				for (j = 0; j < 4; j++)
-				{
-					window_size2[i][j + 3] = block1.block_shape7[i][j];
-				}
-			}
-			break;
-		}
-	}
-private:
-}; 
-/*
-//玩家类
-class player                    
-{
-public:
-	int score;                  //玩家分数
-	void player_initialize();   //玩家初始化函数；
-private:
-	string name;                //玩家名称
-};
-*/
-
+int arr_background[20][10] = { 0 };
+int arr_square[2][4] = { 0 };
 LRESULT CALLBACK Myluosi(HWND hwnd, UINT nMsg, WPARAM wParam, LPARAM lParam);
+void Onpaint(HDC hdc);//画方框
+void Oncreat();//初始化
+void paintsquare(HDC hmendc);//显示方块
+int creatrandomsquare();//产生随机块
+void copysquaretoback();//把随即快贴近背景
+void Onreturn(HWND hwnd);//按回车下落
+void Onleft(HWND hwnd);//按左左移
+void Onright(HWND hwnd);//按右右移
+void Ondown(HWND hwnd);//按下加速
+void squaredown();//方块下落
+void squareleft();//方块左移；
+void squareright();//方块右移
+void Ontimer(HWND hwnd);//计时器相关函数
+int cansquaredown();//判断方块停住
+int cansquareleft();//判断方块左移
+int cansquareleft2();
+int cansquareright();//判断方块右移
+int cansquareright2();
+void change1to2();//落到将底层的1变成2
+int cansquaredown2();//判断方块停住2
+void showsquare2(HDC hdc);//显示值为2的方块+染色
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPTSTR lpCmdLine, int nCmdshow)
 {
-	
+
 	//初始化窗口类
 	WNDCLASSEX wc;
 	HWND hwnd;
 	MSG msg;//消息结构体
 
-	wc.cbClsExtra = 0;							
+	wc.cbClsExtra = 0;
 	wc.cbSize = sizeof(WNDCLASSEX);
 	wc.cbWndExtra = 0;
 	wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
@@ -239,7 +42,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPTSTR lpCmdLine
 	wc.hIcon = NULL;
 	wc.hIconSm = NULL;
 	wc.hInstance = hInstance;
-	wc.lpfnWndProc =Myluosi ;//回调函数地址
+	wc.lpfnWndProc = Myluosi;
 	wc.lpszClassName = "wls";
 	wc.lpszMenuName = NULL;
 	wc.style = CS_HREDRAW | CS_VREDRAW;
@@ -249,9 +52,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPTSTR lpCmdLine
 		return 0;
 	}
 	//创建窗口
-	hwnd = CreateWindowEx(WS_EX_TOPMOST,"wls","我罗斯方块",WS_OVERLAPPEDWINDOW,100,100,900,650,NULL,NULL,hInstance,NULL);
-	if(NULL==hwnd)		//窗口句柄
-	{  
+	hwnd = CreateWindowEx(WS_EX_TOPMOST, "wls", "我罗斯方块", WS_OVERLAPPEDWINDOW, 100, 30, 900, 650, NULL, NULL, hInstance, NULL);
+	if (NULL == hwnd)		//窗口句柄
+	{
 		return 0;
 	}
 	//显示窗口
@@ -259,75 +62,369 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPTSTR lpCmdLine
 	ShowWindow(hwnd, SW_SHOWNORMAL);
 
 	//消息循环
-	
+
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
 		TranslateMessage(&msg);//翻译消息
 
 		DispatchMessage(&msg);//分发消息
 
-	
+
 	}
 	return 0;
 }
 LRESULT CALLBACK Myluosi(HWND hwnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 {
-	class gamewindow gamewindow1;
-	class block block1;
 	PAINTSTRUCT pt;
 	HDC hdc;
 	switch (nMsg)
 	{
-	case WM_CREATE://窗口创建初期只产生一次
-		/*初始化数据的地方*/
+	case WM_CREATE:
+		Oncreat();
 		break;
-
+	case WM_TIMER:
+		Ontimer(hwnd);
+		break;
 	case WM_PAINT:
-		hdc = BeginPaint(hwnd, &pt);//画窗口上的内容
-		/*我罗斯方块内容*/
-		gamewindow1.Map_frame(hdc);  //画框
-		gamewindow1.Block_CR();
-		gamewindow1.Print_block1(hdc, gamewindow1.window_size1);
-		gamewindow1.Print_block2(hdc, gamewindow1.window_size2);
-		EndPaint(hwnd, &pt);        
-
+		hdc = BeginPaint(hwnd, &pt);
+		Onpaint(hdc);
+		EndPaint(hwnd, &pt);
 		break;
 	case WM_KEYDOWN:
+		//	GetLastError();
 		switch (wParam)
 		{
 		case VK_RETURN://回车
-
-				break;
+			GetLastError();
+			Onreturn(hwnd);
+			break;
 
 		case VK_LEFT://左
+			Onleft(hwnd);
 			break;
 
 		case VK_RIGHT://右
+			Onright(hwnd);
 			break;
 
 		case VK_UP://上
 			break;
 
 		case VK_DOWN://下
+			Ondown(hwnd);
 			break;
-
-		case 0x41://A
-			break;
-
-		case 0x44://D
-			break;
-
-		case 0x53://S
-			break;
-
-		case 0x57://W
-			break;
-
 		}
+		break;
 	case WM_DESTROY:
+		KillTimer(hwnd, 2);
 		PostQuitMessage(0);
 		break;
 	}
+	return DefWindowProc(hwnd, nMsg, wParam, lParam);
+}
+void Onpaint(HDC hdc)
+{
+	HDC hmemdc = CreateCompatibleDC(hdc);
+	HBITMAP hbitmapback = CreateCompatibleBitmap(hdc, 500, 600);
+	SelectObject(hmemdc, hbitmapback);
+	paintsquare(hmemdc);
+	showsquare2(hmemdc);
+	BitBlt(hdc, 0, 0, 300, 600, hmemdc, 0, 0, SRCCOPY);
+	DeleteObject(hbitmapback);
+	DeleteDC(hmemdc);
+}
+void Oncreat()
+{
+	srand((unsigned int)time(NULL));
+	creatrandomsquare();
+	copysquaretoback();
+}
+void paintsquare(HDC hmemdc)
+{
+	int i = 0, j = 0;
+	//画大方框
+	Rectangle(hmemdc, 0, 0, 300, 600);
+	HBRUSH hnewbrush = CreateSolidBrush(RGB(50, 150, 50));
+	//HBRUSH holdbrush;
+	SelectObject(hmemdc, hnewbrush);
+	for (i = 0; i < 20; i++)
+	{
+		for (j = 0; j < 10; j++)
+		{
+			if (arr_background[i][j] == 1)
+			{
+				Rectangle(hmemdc, 30 * j, 30 * i, 30 + j * 30, 30 + i * 30);
+			}
+		}
+	}
+	DeleteObject(hnewbrush);
+}
+int creatrandomsquare()
+{
 
-	return DefWindowProc(hwnd, nMsg, wParam, lParam);  
+	int n = rand() % 7;
+	switch (n)
+	{
+	case 0:
+		arr_square[0][0] = 1; arr_square[0][1] = 1; arr_square[0][2] = 0; arr_square[0][3] = 0;
+		arr_square[1][0] = 0; arr_square[1][1] = 1; arr_square[1][2] = 1; arr_square[1][3] = 0;
+		break;
+	case 1:
+		arr_square[0][0] = 0; arr_square[0][1] = 1; arr_square[0][2] = 1; arr_square[0][3] = 0;
+		arr_square[1][0] = 1; arr_square[1][1] = 1; arr_square[1][2] = 0; arr_square[1][3] = 0;
+		break;
+	case 2:
+		arr_square[0][0] = 1; arr_square[0][1] = 0; arr_square[0][2] = 0; arr_square[0][3] = 0;
+		arr_square[1][0] = 1; arr_square[1][1] = 1; arr_square[1][2] = 1; arr_square[1][3] = 0;
+		break;
+	case 3:
+		arr_square[0][0] = 0; arr_square[0][1] = 0; arr_square[0][2] = 1; arr_square[0][3] = 0;
+		arr_square[1][0] = 1; arr_square[1][1] = 1; arr_square[1][2] = 1; arr_square[1][3] = 0;
+		break;
+	case 4:
+		arr_square[0][0] = 0; arr_square[0][1] = 1; arr_square[0][2] = 0; arr_square[0][3] = 0;
+		arr_square[1][0] = 1; arr_square[1][1] = 1; arr_square[1][2] = 1; arr_square[1][3] = 0;
+		break;
+	case 5:
+		arr_square[0][0] = 1; arr_square[0][1] = 1; arr_square[0][2] = 0; arr_square[0][3] = 0;
+		arr_square[1][0] = 1; arr_square[1][1] = 1; arr_square[1][2] = 0; arr_square[1][3] = 0;
+		break;
+	case 6:
+		arr_square[0][0] = 1; arr_square[0][1] = 1; arr_square[0][2] = 1; arr_square[0][3] = 1;
+		arr_square[1][0] = 0; arr_square[1][1] = 0; arr_square[1][2] = 0; arr_square[1][3] = 0;
+		break;
+
+	}
+	return n;
+}
+void copysquaretoback()
+{
+	int i, j;
+	for (i = 0; i < 2; i++)
+	{
+		for (j = 0; j < 4; j++)
+		{
+			arr_background[i][j + 3] = arr_square[i][j];
+		}
+	}
+
+}
+void Onreturn(HWND hwnd)
+{
+	//打开定时器
+	SetTimer(hwnd, 2, 500, NULL);
+}
+void squaredown()
+{
+	int i, j;
+	for (i = 18; i >= 0; i--)
+	{
+
+		for (j = 0; j < 10; j++)
+		{
+			if (1 == arr_background[i][j])
+			{
+				arr_background[i + 1][j] = arr_background[i][j];
+				arr_background[i][j] = 0;
+			}
+		}
+
+	}
+}
+void Ontimer(HWND hwnd)
+{
+
+	//squaredown();
+	HDC hdc = GetDC(hwnd);
+	if (1 == cansquaredown()&&1==cansquaredown2())
+	{
+		squaredown();
+	}
+	else
+	{
+		change1to2();
+		creatrandomsquare();
+		copysquaretoback();
+	}
+	Onpaint(hdc);
+	ReleaseDC(hwnd, hdc);
+}
+int cansquaredown()
+{
+	int i = 0;
+	for (i = 0; i < 10; i++)
+	{
+		if (1 == arr_background[19][i])
+		{
+			return 0;//不可以下落
+		}
+	}
+	return 1;//可以下落
+}
+void change1to2()
+{
+	int i, j;
+	for (i = 0; i < 20; i++)
+	{
+		for (j = 0; j < 10; j++)
+		{
+			if (1 == arr_background[i][j])
+			{
+				arr_background[i][j] = 2;
+			}
+		}
+	}
+}
+int cansquaredown2()
+{
+	int i, j;
+	for (i = 19; i >= 0; i--)
+	{
+		for (j = 0; j < 10; j++)
+		{
+			if (1 == arr_background[i][j])
+			{
+				if (2 == arr_background[i + 1][j])
+					return 0;
+			}
+		}
+	}
+	return 1;
+}
+void showsquare2(HDC hdc)
+{
+	HBRUSH hnewbrush = CreateSolidBrush(RGB(100, 100, 500));
+	//HBRUSH holdbrush;
+	SelectObject(hdc, hnewbrush);
+	int i, j;
+	for (i = 0; i < 20; i++)
+	{
+		for (j = 0; j < 10; j++)
+		{
+			if (2 == arr_background[i][j])
+			{
+				Rectangle(hdc, 30 * j, 30 * i, 30 + j * 30, 30 + i * 30);
+			}
+		}
+	}
+	//SelectObject(hdc, holdbrush);
+	DeleteObject(hnewbrush);
+}
+void Onleft(HWND hwnd)
+{
+	//方块左移
+	HDC hdc = GetDC(hwnd);
+	if (1 == cansquareleft()&&1==cansquareleft2())
+	{
+		squareleft();
+		//显示方块
+		Onpaint(hdc);
+		ReleaseDC(hwnd, hdc);
+	}
+	
+}
+void Onright(HWND hwnd)
+{
+	HDC hdc = GetDC(hwnd);
+	if (1 == cansquareright() && 1 == cansquareright2())
+	{
+		squareright();
+		//显示方块
+		Onpaint(hdc);
+		ReleaseDC(hwnd, hdc);
+	}
+}
+void Ondown(HWND hwnd)
+{
+	Ontimer(hwnd);
+}
+void squareleft()
+{
+	int i, j;
+	for (i = 0; i < 20; i++)
+	{
+		for (j = 0; j < 10; j++)
+		{
+			if (1 == arr_background[i][j])
+			{
+				arr_background[i][j - 1] = arr_background[i][j];
+				arr_background[i][j] = 0;
+			}
+		}
+	}
+}
+int cansquareleft()
+{
+	int i;
+	for (i = 0; i < 20; i++)
+	{
+		if (1 == arr_background[i][0])
+		{
+			return 0;
+		}
+	}
+	return 1;
+}
+int cansquareleft2()
+{
+	int i, j;
+	for (i = 0; i < 20; i++)
+	{
+		for (j = 0; j < 10; j++)
+		{
+			if (arr_background[i][j] == 1)
+			{
+				if (arr_background[i][j - 1] == 2)
+				{
+					return 0;
+				}
+			}
+		}
+	}
+	return 1;
+}
+void squareright()
+{
+	int i, j;
+	for (i = 0; i < 20; i++)
+	{
+		for (j = 9; j >= 0; j--)
+		{
+			if (1 == arr_background[i][j])
+			{
+				arr_background[i][j + 1] = arr_background[i][j];
+				arr_background[i][j] = 0;
+			}
+		}
+	}
+}
+int cansquareright()
+{
+	int i;
+	for (i = 0; i < 20; i++)
+	{
+		if (1 == arr_background[i][19])
+		{
+			return 0;
+		}
+	}
+	return 1;
+}
+int cansquareright2()
+{
+	int i, j;
+	for (i = 0; i < 20; i++)
+	{
+		for (j = 0; j < 10; j++)
+		{
+			if (arr_background[i][j] == 1)
+			{
+				if (arr_background[i][j + 1] == 2)
+				{
+					return 0;
+				}
+			}
+		}
+	}
+	return 1;
 }
