@@ -1,6 +1,7 @@
 #include<Windows.h>
 #include<iostream>
 #include<time.h>
+
 using namespace std;
 int arr_background[20][10] = { 0 };
 int arr_square[2][4] = { 0 };
