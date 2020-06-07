@@ -408,6 +408,7 @@ public:
 			if (sum == 20)
 			{
 				//消除一行
+				AddLine_P2();
 				for (temp = i - 1; temp >= 0; temp--)
 				{
 					for (j = 0; j < 10; j++)
@@ -416,9 +417,8 @@ public:
 					}
 				}
 				p.score1++;
-				AddLine_P2();
 				i = 20;
-				//i+=1;第二种思路
+				//i+=1;//第二种思路
 			}
 			sum = 0;
 		}
@@ -436,6 +436,7 @@ public:
 			}
 			if (sum == 20)
 			{
+				AddLine_P1();
 				//消除一行
 				for (temp = i - 1; temp >= 0; temp--)
 				{
@@ -445,9 +446,8 @@ public:
 					}
 				}
 				p.score2++;
-				AddLine_P1();
 				i = 20;
-				//i+=1;第二种思路
+				//i+=1;//第二种思路
 			}
 			sum = 0;
 		}
@@ -459,19 +459,24 @@ public:
 		{
 			for (int j = 0; j < 10; j++)
 			{
-				if (arr_background1[i][j] == 2)
-				{
+				//if (arr_background1[i][j] == 2||arr_background1[i][j]==1)
+				//{
+				
 					arr_background1[i - 1][j] = arr_background1[i][j];
-					arr_background1[i][j] = 0;
-				}
+					//arr_background1[i][j] = 0;
+					//arr_background1[i][j] = 0;
+				//}
 			}
 		}
+		Square s;
+		s.P1_y_square--;
 		for (int i = 0; i < 10; i++)
 		{
-			int n = rand() % 2;
-			if (n == 0) arr_background1[19][i] = 0;
-			if (n == 1) arr_background1[19][i] = 2;
+				int n = rand() % 2;
+				if (n == 0) arr_background1[19][i] = 0;
+				if (n == 1) arr_background1[19][i] = 2;
 		}
+		
 	}
 	void AddLine_P2()
 	{
@@ -479,18 +484,21 @@ public:
 		{
 			for (int j = 0; j < 10; j++)
 			{
-				if (arr_background2[i][j] == 2)
-				{
+				//if (arr_background2[i][j] == 2||arr_background1[i][j]==1)
+				//{
 					arr_background2[i - 1][j] = arr_background2[i][j];
-					arr_background2[i][j] = 0;
-				}
+					//arr_background2[i][j] = 0;
+					//arr_background2[i][j] = 0;
+				//}
 			}
 		}
+		Square s;
+		s.P2_y_square--;
 		for (int i = 0; i < 10; i++)
 		{
-			int n = rand() % 2;
-			if (n == 0) arr_background2[19][i] = 0;
-			if (n == 1) arr_background2[19][i] = 2;
+				int n = rand() % 2;
+				if (n == 0) arr_background2[19][i] = 0;
+				if (n == 1) arr_background2[19][i] = 2;
 		}
 	}
 
@@ -564,17 +572,10 @@ public://按键消息
 		{
 			Squaredown_1(w);
 			s.P1_y_square++;
+			HDC hdc = GetDC(hwnd);
+			w.Onpaint(hdc);
+			ReleaseDC(hwnd, hdc);
 		}
-		else
-		{
-			w.Change_1_2_P1();
-			Square s;
-			s.CreatRandomSquare();
-			w.Copy_Square_Back_P1(s);
-		}
-		HDC hdc = GetDC(hwnd);
-		w.Onpaint(hdc);
-		ReleaseDC(hwnd, hdc);
 	}
 	void Ondown_P2(HWND hwnd, Windows& w,Square&s)
 	{
@@ -582,18 +583,10 @@ public://按键消息
 		{
 			Squaredown_2(w);
 			s.P2_y_square++;
+			HDC hdc = GetDC(hwnd);
+			w.Onpaint(hdc);
+			ReleaseDC(hwnd, hdc);
 		}
-		else
-		{
-			w.Change_1_2_P2();
-			Square s;
-			s.CreatRandomSquare2();
-			w.Copy_Square_Back_P2(s);
-		}
-		//显示
-		HDC hdc = GetDC(hwnd);
-		w.Onpaint(hdc);
-		ReleaseDC(hwnd, hdc);
 	}
 	//变形
 	void Onchange_P1(HWND hwnd,Windows&w,Square&s)
@@ -681,7 +674,7 @@ public://按键消息
 		{
 			w.Change_1_2_P1();
 			w.DestroyLine_P1(p);
-			if (!Can_GameOver(hwnd, w))
+			if (!Can_GameOver_P1(hwnd, w))
 			{
 				KillTimer(hwnd, 2);
 				return;
@@ -698,9 +691,8 @@ public://按键消息
 		else
 		{
 			w.Change_1_2_P2();
-			Square s;
 			w.DestroyLine_P2(p);
-			if (!Can_GameOver(hwnd, w))
+			if (!Can_GameOver_P2(hwnd, w))
 			{
 				KillTimer(hwnd, 2);
 				return;
@@ -1021,7 +1013,7 @@ public:
 			{
 				if (w.arr_background1[i][j] == 1)
 				{
-					if (w.arr_background1[i + 1][j] == 2)
+					if ((i==19)||(w.arr_background1[i + 1][j] == 2&&i!=19))
 					{
 						return false;
 					}
@@ -1038,7 +1030,7 @@ public:
 			{
 				if (w.arr_background2[i][j] == 1)
 				{
-					if (w.arr_background2[i + 1][j] == 2)
+					if ((i==19)||(w.arr_background2[i + 1][j] == 2&&i!=19))
 					{
 						return false;
 					}
@@ -1271,7 +1263,7 @@ public:
 		}
 	}
 	//判断游戏是否结束
-	bool Can_GameOver(HWND hwnd,Windows&w)
+	bool Can_GameOver_P1(HWND hwnd,Windows&w)
 	{
 		int i;
 		for (i = 0; i < 10; i++)
@@ -1282,6 +1274,16 @@ public:
 				MessageBox(hwnd, "Gameover,玩家2赢了", "提示", MB_OK);
 				return false;
 			}
+			
+		}
+		return true;
+	}
+	bool Can_GameOver_P2(HWND hwnd, Windows& w)
+	{
+		int i;
+		for (i = 0; i < 10; i++)
+		{
+			
 			if (w.arr_background2[0][i] == 2)
 			{
 				//游戏结束
@@ -1382,12 +1384,10 @@ LRESULT CALLBACK Myluosi(HWND hwnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 		case VK_RETURN://回车
 			e.Onenter(hwnd);
 			break;
-
 		case VK_LEFT://左
 			e.Onleft_P2(hwnd,w,s);
 			break;
 		case 65://A左
-					//GetLastError();
 			e.Onleft_P1(hwnd, w,s);
 			break;
 		case VK_RIGHT://右
@@ -1408,7 +1408,6 @@ LRESULT CALLBACK Myluosi(HWND hwnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 		case 83://S下
 			e.Ondown_P1(hwnd, w,s);
 			break;
-		
 		}
 		break;
 	case WM_DESTROY:
