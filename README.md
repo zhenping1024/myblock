@@ -8,6 +8,7 @@ The oop homework,which need to program a game called mybloce(我罗斯方块).
 
 详细
 以玩家一为例，AD 控制方块左右移动，W 转换方块朝向，S 快速下落，使得方块落到底端。当玩家方块填满一整行时，会消除这行方块，然后使得玩家二的方块底部随机增加一行带空格的。玩家二同理。当一名玩家方块高度达到一个高度时就会结束游戏，该玩家失败。
+![image](https://github.com/zhenping1024/myblock/blob/master/F7A3480A-25CA-4062-9E9F-D4315A689DF1.png)
 
 说明：
 -
