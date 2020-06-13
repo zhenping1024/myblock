@@ -36,7 +36,7 @@ The oop homework,which need to program a game called mybloce(我罗斯方块).
 
 存在问题：
 -
-1.存在当从底部增加一行时可能使新生成方块部分缺失的bug
+1.存在当从底部增加一行时可能使新生成方块部分缺失的bug（已修复）
 
 2.尚未完成游戏菜单的创建
 
