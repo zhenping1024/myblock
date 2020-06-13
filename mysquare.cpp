@@ -455,21 +455,34 @@ public:
 	//增加行
 	void AddLine_P1()
 	{
-		for (int i = 1; i < 20; i++)
+		if (Can_MoveUp_1())
 		{
-			for (int j = 0; j < 10; j++)
+			Square s;
+			s.P1_y_square--;
+			for (int i = 1; i < 20; i++)
 			{
-				//if (arr_background1[i][j] == 2||arr_background1[i][j]==1)
-				//{
-				
-					arr_background1[i - 1][j] = arr_background1[i][j];
-					//arr_background1[i][j] = 0;
-					//arr_background1[i][j] = 0;
-				//}
+				for (int j = 0; j < 10; j++)
+				{
+					//if (Can_MoveUp_1())
+					//{
+						arr_background1[i - 1][j] = arr_background1[i][j];
+						//arr_background1[i][j] = 0;
+						//arr_background1[i][j] = 0;
+
+					//}
+				}
 			}
 		}
-		Square s;
-		s.P1_y_square--;
+		else 
+		{
+			for (int i = 3; i < 20; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					arr_background1[i - 1][j] = arr_background1[i][j];
+				}
+			}
+		}
 		for (int i = 0; i < 10; i++)
 		{
 				int n = rand() % 2;
@@ -480,20 +493,35 @@ public:
 	}
 	void AddLine_P2()
 	{
-		for (int i = 1; i < 20; i++)
+		if (Can_MoveUp_2())
 		{
-			for (int j = 0; j < 10; j++)
+			Square s;
+			s.P2_y_square--;
+			for (int i = 1; i < 20; i++)
 			{
-				//if (arr_background2[i][j] == 2||arr_background1[i][j]==1)
-				//{
-					arr_background2[i - 1][j] = arr_background2[i][j];
-					//arr_background2[i][j] = 0;
-					//arr_background2[i][j] = 0;
-				//}
+				for (int j = 0; j < 10; j++)
+				{
+					//if (Can_MoveUp_2())
+					//{
+
+						arr_background2[i - 1][j] = arr_background2[i][j];
+						//arr_background2[i][j] = 0;
+						//arr_background2[i][j] = 0;
+
+					//}
+				}
 			}
 		}
-		Square s;
-		s.P2_y_square--;
+		else
+		{
+			for (int i = 3; i < 20; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					arr_background2[i-1][j] = arr_background2[i][j];
+				}
+			}
+		}
 		for (int i = 0; i < 10; i++)
 		{
 				int n = rand() % 2;
@@ -501,7 +529,65 @@ public:
 				if (n == 1) arr_background2[19][i] = 2;
 		}
 	}
+	bool Can_MoveUp_1()
+	{
+		bool a=true/*, b=true*/;
+			for (int j = 0; j < 10; j++)
+			{
+				if (arr_background1[0][j] == 1)
+				{
+					a= false;
+					break;
+				}
+			}
+			/*for (int i = 1; i < 10; i++)
+			{
+				if (arr_background1[1][i] == 1)
+				{
+					b = false;
+					break;
+				}
+			}*/
+			if (!a)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+	}
+	bool Can_MoveUp_2()
+	{
+		bool a = true;
+		/*bool b = true;*/
+		
+			for (int j = 0; j < 10; j++)
+			{
+				if (arr_background2[0][j] == 1)
+				{
+					a = false;
+					break;
+				}
+			}
+			/*for (int i = 0; i < 10; i++)
+			{
+				if (arr_background2[1][i] == 1)
+				{
+					b = false;
+					break;
+				}
+			}*/
 
+			if (!a )
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+	}
 };
 class Engine
 {
@@ -669,6 +755,23 @@ public://按键消息
 		{
 			Squaredown_1(w);
 			s.P1_y_square++;
+			/*bool a = false;
+			for (int i = 0; i < 20; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					if (w.arr_background1[i][j] == 1)
+					{
+						a = true;
+						break;
+					}
+				}
+			}
+			if (!a)
+			{
+				s.CreatRandomSquare();
+				w.Copy_Square_Back_P1(s);
+			}*/
 		}
 		else
 		{
@@ -686,7 +789,23 @@ public://按键消息
 		{
 			Squaredown_2(w);
 			s.P2_y_square++;
-			
+			/*bool a = false;
+			for (int i = 0; i < 20; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					if (w.arr_background2[i][j] == 1)
+					{
+						a = true;
+						break;
+					}
+				}
+			}
+			if (!a)
+			{
+				s.CreatRandomSquare2();
+				w.Copy_Square_Back_P2(s);
+			}*/
 		}
 		else
 		{
